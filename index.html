@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Workflow Automation Discovery Form - Share your automation needs">
+    <title>AI Workflow Automation Discovery</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :focus-visible {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .company-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+        
+        .tagline {
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #718096;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 30px;
+            padding: 16px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        
+        .badge-icon {
+            font-size: 20px;
+        }
+        
+        .response-time {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border: 2px solid #667eea40;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        
+        .autosave-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.3s;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
+        }
+        
+        .autosave-indicator.show {
+            display: block;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            role: progressbar;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .char-counter {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 11px;
+            color: #a0aec0;
+        }
+        
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+        
+        label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        input.error, textarea.error, select.error {
+            border-color: #e53e3e;
+        }
+        
+        .error-msg {
+            color: #e53e3e;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+        
+        .error-msg.show {
+            display: block;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .location-info {
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+        
+        .btn-secondary:hover:not(:disabled) {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .required { color: #e53e3e; }
+        
+        .success-screen {
+            display: none;
+            text-align: center;
+        }
+        
+        .success-screen.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        
+        .success-screen h2 {
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+        
+        .success-screen p {
+            color: #718096;
+            margin-bottom: 24px;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 24px;
+            padding: 16px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group a {
+            color: #667eea;
+            text-decoration: underline;
+        }
+        
+        .checkbox-group a:hover {
+            color: #764ba2;
+        }
+        
+        .privacy-notice {
+            background: #edf2f7;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        
+        .privacy-notice h3 {
+            font-size: 14px;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        
+        .privacy-notice a {
+            color: #667eea;
+            text-decoration: underline;
+        }
+        
+        .testimonials {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .testimonial {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .testimonial:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .testimonial-text {
+            font-size: 13px;
+            color: #4a5568;
+            font-style: italic;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            font-size: 12px;
+            color: #718096;
+            font-weight: 600;
+        }
+        
+        .stars {
+            color: #f59e0b;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .faq-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        .faq-title {
+            font-size: 18px;
+            color: #2d3748;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .faq-item {
+            margin-bottom: 16px;
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        
+        .faq-question {
+            font-size: 14px;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .faq-answer {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .retry-notice {
+            background: #fed7d7;
+            border: 2px solid #fc8181;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: none;
+        }
+        
+        .retry-notice.show {
+            display: block;
+        }
+        
+        .retry-notice p {
+            color: #742a2a;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .retry-btn {
+            background: #e53e3e;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .badge {
+                justify-content: center;
+            }
+            
+            .autosave-indicator {
+                top: 10px;
+                right: 10px;
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+    <!-- Google Analytics - Replace with your GA4 ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+</head>
+<body>
+    <!-- Autosave Indicator -->
+    <div class="autosave-indicator" id="autosaveIndicator" role="status" aria-live="polite">
+        ✓ Draft saved
+    </div>
+
+    <div class="container">
+        <!-- Logo & Branding -->
+        <div class="logo-section">
+            <div class="logo" role="img" aria-label="Company logo">🤖</div>
+            <div class="company-name">AI Workflow Automation</div>
+            <div class="tagline">Smart Automation for Growing Businesses</div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges" role="region" aria-label="Trust indicators">
+            <div class="badge">
+                <span class="badge-icon">🔒</span>
+                <span>SOC 2 Compliant</span>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">✓</span>
+                <span>GDPR Ready</span>
+            </div>
+            <div class="badge">
+                <span class="badge-icon">⚡</span>
+                <span>500+ Projects</span>
+            </div>
+        </div>
+
+        <h1 id="form-title">Discovery Form</h1>
+        <p class="subtitle">Share your needs and get a personalized automation proposal</p>
+        
+        <!-- Response Time Promise -->
+        <div class="response-time">
+            ⏱️ We respond within 24 hours • Free consultation included
+        </div>
+
+        <!-- Value Propositions -->
+        <div class="testimonials">
+            <div class="testimonial">
+                <div class="testimonial-text"><strong>🎯 Our Goal:</strong> Help you achieve 80% efficiency gains through intelligent automation</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text"><strong>📈 Industry Standard:</strong> Most businesses see ROI within 2-4 months of implementing automation solutions</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text"><strong>💡 What You Get:</strong> Dedicated support, clear communication, and solutions tailored to your specific workflow needs</div>
+            </div>
+        </div>
+        
+        <div class="progress-bar" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" aria-label="Form progress">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <form id="discoveryForm" aria-labelledby="form-title" novalidate>
+            <!-- Step 1: Business Info -->
+            <div class="step active" data-step="1" role="group" aria-label="Step 1 of 3: Business Information">
+                <div class="form-group">
+                    <label for="businessName">Business Name <span class="required" aria-label="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="businessName" 
+                        name="businessName"
+                        required 
+                        placeholder="Your Company Inc."
+                        maxlength="100"
+                        aria-required="true"
+                        aria-invalid="false"
+                        aria-describedby="businessNameError">
+                    <div class="error-msg" id="businessNameError" role="alert">Please enter your business name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input 
+                        type="url" 
+                        id="website" 
+                        name="website"
+                        placeholder="https://yourcompany.com"
+                        maxlength="200"
+                        aria-describedby="websiteError">
+                    <div class="error-msg" id="websiteError" role="alert">Please enter a valid URL</div>
+                </div>
+
+                <div class="form-group">
+                    <label id="location-label">Location & Currency</label>
+                    <div class="location-info" id="locationInfo" aria-labelledby="location-label">Detecting your location...</div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" onclick="nextStep()" aria-label="Go to next step">Next Step →</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Pain Points & Budget -->
+            <div class="step" data-step="2" role="group" aria-label="Step 2 of 3: Project Details">
+                <div class="form-group">
+                    <label for="painPoint">
+                        What's your biggest automation pain point? <span class="required" aria-label="required">*</span>
+                        <span class="char-counter" id="painPointCounter">0/500</span>
+                    </label>
+                    <textarea 
+                        id="painPoint" 
+                        name="painPoint"
+                        required 
+                        placeholder="Describe the manual processes slowing you down..."
+                        maxlength="500"
+                        aria-required="true"
+                        aria-invalid="false"
+                        aria-describedby="painPointError"></textarea>
+                    <div class="error-msg" id="painPointError" role="alert">Please describe your automation needs</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">Budget Bracket <span class="required" aria-label="required">*</span></label>
+                    <select 
+                        id="budget" 
+                        name="budget"
+                        required
+                        aria-required="true"
+                        aria-invalid="false"
+                        aria-describedby="budgetError">
+                        <option value="">Select your budget range</option>
+                        <option value="under-5k">Under $5,000</option>
+                        <option value="5k-15k">$5,000 - $15,000</option>
+                        <option value="15k-30k">$15,000 - $30,000</option>
+                        <option value="30k-50k">$30,000 - $50,000</option>
+                        <option value="50k-plus">$50,000+</option>
+                    </select>
+                    <div class="error-msg" id="budgetError" role="alert">Please select a budget range</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeline">Urgency Timeline <span class="required" aria-label="required">*</span></label>
+                    <select 
+                        id="timeline" 
+                        name="timeline"
+                        required
+                        aria-required="true"
+                        aria-invalid="false"
+                        aria-describedby="timelineError">
+                        <option value="">When do you need this?</option>
+                        <option value="asap">ASAP (This week)</option>
+                        <option value="1-2weeks">1-2 weeks</option>
+                        <option value="1month">Within a month</option>
+                        <option value="2-3months">2-3 months</option>
+                        <option value="flexible">Flexible / Exploring</option>
+                    </select>
+                    <div class="error-msg" id="timelineError" role="alert">Please select a timeline</div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="prevStep()" aria-label="Go to previous step">← Back</button>
+                    <button type="button" onclick="nextStep()" aria-label="Go to next step">Next Step →</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Contact Info & Consent -->
+            <div class="step" data-step="3" role="group" aria-label="Step 3 of 3: Contact Information">
+                <div class="form-group">
+                    <label for="email">Email <span class="required" aria-label="required">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email"
+                        required 
+                        placeholder="your@email.com"
+                        maxlength="100"
+                        aria-required="true"
+                        aria-invalid="false"
+                        aria-describedby="emailError">
+                    <div class="error-msg" id="emailError" role="alert">Please enter a valid email</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">WhatsApp / Slack ID</label>
+                    <input 
+                        type="text" 
+                        id="contact" 
+                        name="contact"
+                        maxlength="50"
+                        placeholder="+1234567890 or @username">
+                </div>
+
+                <div class="privacy-notice" role="region" aria-label="Privacy information">
+                    <h3>🔒 Your Privacy Matters</h3>
+                    <p>We collect and process your data to provide automation consulting services. Your information is stored securely and never shared with third parties. Read our <a href="#privacy" onclick="alert('Link to your privacy policy')">Privacy Policy</a> for details.</p>
+                </div>
+
+                <div class="checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="gdprConsent" 
+                        name="gdprConsent"
+                        required
+                        aria-required="true"
+                        aria-describedby="gdprConsentError">
+                    <label for="gdprConsent">
+                        I consent to the collection and processing of my personal data as described in the <a href="#privacy" onclick="alert('Link to your privacy policy')">Privacy Policy</a>. I understand I can withdraw consent at any time by contacting privacy@yourcompany.com. <span class="required" aria-label="required">*</span>
+                    </label>
+                </div>
+                <div class="error-msg" id="gdprConsentError" role="alert" style="margin-top: 8px;">Please accept the privacy policy to continue</div>
+
+                <div class="checkbox-group" style="margin-top: 12px;">
+                    <input 
+                        type="checkbox" 
+                        id="marketingConsent" 
+                        name="marketingConsent"
+                        aria-describedby="marketingConsentInfo">
+                    <label for="marketingConsent">
+                        <span id="marketingConsentInfo">I agree to receive marketing communications about AI automation solutions. You can unsubscribe anytime.</span>
+                    </label>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-secondary" onclick="prevStep()" aria-label="Go to previous step">← Back</button>
+                    <button type="submit" id="submitBtn" aria-label="Submit discovery form">Submit Form</button>
+                </div>
+
+                <!-- Retry Section -->
+                <div class="retry-notice" id="retryNotice">
+                    <p><strong>⚠️ Submission failed.</strong> Please check your internet connection and try again.</p>
+                    <button type="button" class="retry-btn" onclick="retrySubmission()">Retry Submission</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen" role="status" aria-live="polite">
+            <div class="success-icon" role="img" aria-label="Success">✅</div>
+            <h2>Discovery Form Submitted!</h2>
+            <p>Thank you for sharing your automation needs. We'll review your information and get back to you within 24 hours at the email address you provided.</p>
+            <p style="color: #718096; font-size: 13px; margin-top: 16px;">Check your inbox for a confirmation email with next steps.</p>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section" id="faqSection">
+            <div class="faq-title">Frequently Asked Questions</div>
+            
+            <div class="faq-item">
+                <div class="faq-question">📋 What happens after I submit?</div>
+                <div class="faq-answer">Our team reviews your submission within 24 hours. You'll receive a detailed proposal with timeline, pricing, and next steps.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">💰 Is the consultation free?</div>
+                <div class="faq-answer">Yes! The initial consultation and proposal are completely free with no obligations.</div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">⏱️ How long do projects typically take?</div>
+                <div class="faq-answer">Most automation projects are completed in 2-8 weeks, depending on complexity. We'll provide a detailed timeline in your proposal.</div>
+            </div>
+        </div>
+
+        <!-- Security Badges -->
+        <div class="security-badges">
+            <div class="security-badge">
+                <span>🔐</span>
+                <span>SSL Encrypted</span>
+            </div>
+            <div class="security-badge">
+                <span>🛡️</span>
+                <span>Data Protected</span>
+            </div>
+            <div class="security-badge">
+                <span>✓</span>
+                <span>Privacy First</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        emailjs.init('FBsGxaRmbsJdNALXB');
+
+        let currentStep = 1;
+        let detectedLocation = {};
+        let autosaveTimer;
+        let formData = {};
+        let retryAttempts = 0;
+        const MAX_RETRIES = 3;
+
+        // Load saved draft on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadDraft();
+            trackEvent('form_view', { form_name: 'discovery_form' });
+        });
+
+        // Autosave functionality
+        function setupAutosave() {
+            const formFields = ['businessName', 'website', 'painPoint', 'budget', 'timeline', 'email', 'contact'];
+            
+            formFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.addEventListener('input', function() {
+                        clearTimeout(autosaveTimer);
+                        autosaveTimer = setTimeout(saveDraft, 2000);
+                    });
+                }
+            });
+        }
+
+        function saveDraft() {
+            const draft = {
+                businessName: document.getElementById('businessName').value,
+                website: document.getElementById('website').value,
+                painPoint: document.getElementById('painPoint').value,
+                budget: document.getElementById('budget').value,
+                timeline: document.getElementById('timeline').value,
+                email: document.getElementById('email').value,
+                contact: document.getElementById('contact').value,
+                step: currentStep,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                localStorage.setItem('discovery_form_draft', JSON.stringify(draft));
+                showAutosaveIndicator();
+                trackEvent('form_autosave', { step: currentStep });
+            } catch (e) {
+                console.error('Autosave failed:', e);
+            }
+        }
+
+        function loadDraft() {
+            try {
+                const draft = localStorage.getItem('discovery_form_draft');
+                if (draft) {
+                    const data = JSON.parse(draft);
+                    const daysSinceLastSave = (new Date() - new Date(data.timestamp)) / (1000 * 60 * 60 * 24);
+                    
+                    // Only restore if saved within last 7 days
+                    if (daysSinceLastSave < 7) {
+                        if (confirm('We found a saved draft. Would you like to continue where you left off?')) {
+                            document.getElementById('businessName').value = data.businessName || '';
+                            document.getElementById('website').value = data.website || '';
+                            document.getElementById('painPoint').value = data.painPoint || '';
+                            document.getElementById('budget').value = data.budget || '';
+                            document.getElementById('timeline').value = data.timeline || '';
+                            document.getElementById('email').value = data.email || '';
+                            document.getElementById('contact').value = data.contact || '';
+                            updateCharCounter();
+                            trackEvent('form_draft_restored', {});
+                        }
+                    } else {
+                        localStorage.removeItem('discovery_form_draft');
+                    }
+                }
+            } catch (e) {
+                console.error('Load draft failed:', e);
+            }
+        }
+
+        function showAutosaveIndicator() {
+            const indicator = document.getElementById('autosaveIndicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+
+        // Character counter
+        function updateCharCounter() {
+            const painPoint = document.getElementById('painPoint');
+            const counter = document.getElementById('painPointCounter');
+            const length = painPoint.value.length;
+            counter.textContent = `${length}/500`;
+            
+            if (length > 450) {
+                counter.classList.add('warning');
+            } else {
+                counter.classList.remove('warning');
+            }
+        }
+
+        document.getElementById('painPoint').addEventListener('input', updateCharCounter);
+
+        // Analytics tracking
+        function trackEvent(eventName, params) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, params);
+            }
+            console.log('Analytics:', eventName, params);
+        }
+
+        async function detectLocation() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                detectedLocation = {
+                    country: data.country_name,
+                    currency: data.currency,
+                    ip: data.ip
+                };
+                document.getElementById('locationInfo').innerHTML = 
+                    `📍 ${data.country_name} | 💰 ${data.currency}`;
+            } catch (e) {
+                document.getElementById('locationInfo').innerHTML = 
+                    '📍 Location detection unavailable';
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / 3) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+            progressBar.parentElement.setAttribute('aria-valuenow', progress);
+        }
+
+        function validateStep(step) {
+            let isValid = true;
+
+            if (step === 1) {
+                const businessName = document.getElementById('businessName');
+                const website = document.getElementById('website');
+                
+                if (!businessName.value.trim()) {
+                    showError(businessName, 'businessNameError');
+                    isValid = false;
+                } else {
+                    hideError(businessName, 'businessNameError');
+                }
+
+                if (website.value && !isValidUrl(website.value)) {
+                    showError(website, 'websiteError');
+                    isValid = false;
+                } else {
+                    hideError(website, 'websiteError');
+                }
+            }
+
+            if (step === 2) {
+                const painPoint = document.getElementById('painPoint');
+                const budget = document.getElementById('budget');
+                const timeline = document.getElementById('timeline');
+
+                if (!painPoint.value.trim()) {
+                    showError(painPoint, 'painPointError');
+                    isValid = false;
+                } else {
+                    hideError(painPoint, 'painPointError');
+                }
+
+                if (!budget.value) {
+                    showError(budget, 'budgetError');
+                    isValid = false;
+                } else {
+                    hideError(budget, 'budgetError');
+                }
+
+                if (!timeline.value) {
+                    showError(timeline, 'timelineError');
+                    isValid = false;
+                } else {
+                    hideError(timeline, 'timelineError');
+                }
+            }
+
+            if (step === 3) {
+                const email = document.getElementById('email');
+                const gdprConsent = document.getElementById('gdprConsent');
+
+                if (!email.value.trim() || !isValidEmail(email.value)) {
+                    showError(email, 'emailError');
+                    isValid = false;
+                } else {
+                    hideError(email, 'emailError');
+                }
+
+                if (!gdprConsent.checked) {
+                    document.getElementById('gdprConsentError').classList.add('show');
+                    gdprConsent.setAttribute('aria-invalid', 'true');
+                    isValid = false;
+                } else {
+                    document.getElementById('gdprConsentError').classList.remove('show');
+                    gdprConsent.setAttribute('aria-invalid', 'false');
+                }
+            }
+
+            return isValid;
+        }
+
+        function showError(input, errorId) {
+            input.classList.add('error');
+            input.setAttribute('aria-invalid', 'true');
+            document.getElementById(errorId).classList.add('show');
+            input.focus();
+        }
+
+        function hideError(input, errorId) {
+            input.classList.remove('error');
+            input.setAttribute('aria-invalid', 'false');
+            document.getElementById(errorId).classList.remove('show');
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function isValidUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        function nextStep() {
+            if (!validateStep(currentStep)) return;
+
+            trackEvent('form_step_completed', { step: currentStep });
+            
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep++;
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            updateProgress();
+            saveDraft();
+            
+            if (currentStep === 2) {
+                document.getElementById('faqSection').style.display = 'none';
+            }
+            
+            const firstInput = document.querySelector(`.step[data-step="${currentStep}"] input, .step[data-step="${currentStep}"] textarea, .step[data-step="${currentStep}"] select`);
+            if (firstInput) firstInput.focus();
+        }
+
+        function prevStep() {
+            trackEvent('form_step_back', { step: currentStep });
+            
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep--;
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+            updateProgress();
+            
+            if (currentStep === 1) {
+                document.getElementById('faqSection').style.display = 'block';
+            }
+            
+            const firstInput = document.querySelector(`.step[data-step="${currentStep}"] input, .step[data-step="${currentStep}"] textarea`);
+            if (firstInput) firstInput.focus();
+        }
+
+        async function submitFormData() {
+            formData = {
+                business_name: document.getElementById('businessName').value,
+                website: document.getElementById('website').value,
+                pain_point: document.getElementById('painPoint').value,
+                budget: document.getElementById('budget').value,
+                timeline: document.getElementById('timeline').value,
+                client_email: document.getElementById('email').value,
+                contact: document.getElementById('contact').value,
+                country: detectedLocation.country || 'Unknown',
+                currency: detectedLocation.currency || 'Unknown',
+                marketing_consent: document.getElementById('marketingConsent').checked ? 'Yes' : 'No',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                await emailjs.send(
+                    'service_vl9phcc',
+                    'template_q54bxmr',
+                    formData
+                );
+                
+                trackEvent('form_submitted', { 
+                    budget: formData.budget, 
+                    timeline: formData.timeline 
+                });
+                
+                localStorage.removeItem('discovery_form_draft');
+                
+                document.getElementById('discoveryForm').style.display = 'none';
+                document.querySelector('.progress-bar').style.display = 'none';
+                document.getElementById('faqSection').style.display = 'none';
+                document.getElementById('successScreen').classList.add('show');
+                document.getElementById('successScreen').focus();
+                
+                retryAttempts = 0;
+                return true;
+            } catch (error) {
+                console.error('Submission error:', error);
+                trackEvent('form_submission_error', { 
+                    attempt: retryAttempts + 1,
+                    error: error.message 
+                });
+                return false;
+            }
+        }
+
+        async function retrySubmission() {
+            if (retryAttempts >= MAX_RETRIES) {
+                alert('Maximum retry attempts reached. Please contact us directly at support@yourcompany.com or try again later.');
+                trackEvent('form_submission_failed', { attempts: retryAttempts });
+                return;
+            }
+
+            retryAttempts++;
+            document.getElementById('retryNotice').classList.remove('show');
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Retrying...';
+
+            const success = await submitFormData();
+            
+            if (!success) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Form';
+                document.getElementById('retryNotice').classList.add('show');
+            }
+        }
+
+        document.getElementById('discoveryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!validateStep(3)) return;
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
+            submitBtn.setAttribute('aria-busy', 'true');
+
+            trackEvent('form_submit_attempted', {});
+
+            const success = await submitFormData();
+            
+            if (!success) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Form';
+                submitBtn.setAttribute('aria-busy', 'false');
+                document.getElementById('retryNotice').classList.add('show');
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.type !== 'textarea' && e.target.type !== 'submit') {
+                e.preventDefault();
+                if (currentStep < 3) {
+                    nextStep();
+                }
+            }
+        });
+
+        // Initialize
+        detectLocation();
+        updateProgress();
+        setupAutosave();
+        updateCharCounter();
+    </script>
+</body>
+</html>
